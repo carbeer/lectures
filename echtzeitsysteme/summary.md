@@ -46,7 +46,7 @@ Zusätzliche Aufgaben Echzeitbetriebssysteme: Wahrung von Rechzeitigkeit, Gleich
 Das Modell eines Mikrokenrbetriebssystems fügt im Gegensatz zum Makrokernbetriebssystem eine zusätzliche Schicht direkt über dem realen Prozessor ein. Diese dient der Interprozesskommunikation, Synchronisation und Taskverwaltung $\Rightarrow$ Besser anpassbar an Aufgaben, gute Sklaierbarkiet, einfache Portierbarkeit, preemptiver (unterbrechbarer) Kern und lediglich kurze kritische Bereiche. Ein kritischer Bereich liegt vor, wenn Semaphoren geblockt sind
 
 <div style="text-align:center">
-	<img src="./assets/schichtenmodell_mikroprozessor.jpg" class="center" width="200"/>
+	<img src="./assets/schichtenmodell_mikroprozessor.JPG" class="center" width="200"/>
 </div>
 
 **Mikrokernbetriebssystem**: 
@@ -229,7 +229,7 @@ Starre Priorisierung (Fixed-priority-preemptive) führt zu schlechter zeitlicher
 
 ### Aufbau Mikrocontroller
 <div style="text-align:center">
-	<img src="./assets/mikrocontroller.jpg" class="center" width="400"/>
+	<img src="./assets/mikrocontroller.JPG" class="center" width="400"/>
 </div>
 
 **Zähler/Zeitgeber**:
@@ -313,7 +313,7 @@ Eigenschaften:
 
 Transferarten:
   <div style="text-align:center">
-	<img src="./assets/pci_transfer.jpg" class="center" width="400"/>
+	<img src="./assets/pci_transfer.JPG" class="center" width="400"/>
   </div>
 
   * Standard Write: $n \cdot (T_A+T_D)$
@@ -323,7 +323,7 @@ Transferarten:
 
 ### PCIe: 
   <div style="text-align:center">
-	<img src="./assets/pcie_transfer.jpg" class="center" width="400"/>
+	<img src="./assets/pcie_transfer.JPG" class="center" width="400"/>
   </div>
 
 Topologie:
@@ -508,7 +508,7 @@ Versucht mit Standardhardware zu arbeiten.
 ### Operationsverstärker
 Wird aus mehreren Transistoren gebaut. 
   <div style="text-align:center">
-	<img src="./assets/opv.jpg" class="center" width="400"/>
+	<img src="./assets/opv.JPG" class="center" width="400"/>
   </div>
 
 Annahmen des idealen OPVs:
@@ -517,20 +517,20 @@ Annahmen des idealen OPVs:
   * Ausgangswiderstand 0
   * Verstärkung ist unendlich
 
-#### Nicht-invertierend
+#### Nicht-invertierender OPV
 $U_A=\dfrac{R_1+R_N}{R_1}\cdot U_E=y\cdot E$. 
 Eingang liegt auf $+$ an, $-$ liegt über Widerstand auf Masse.
 
   <div style="text-align:center">
-	<img src="./assets/nicht_invertierender_opc.jpg" class="center" width="400"/>
+	<img src="./assets/nicht_invertierender_opv.JPG" class="center" width="400"/>
   </div>
 
-### Invertierend
+### Invertierender OPV
 $U_A=- \dfrac{R_N}{R_1}\cdot U_E$
 $+$ liegt auf Masse, Eingang auf $-$.
 
   <div style="text-align:center">
-	<img src="./assets/invertierender_opv.jpg" class="center" width="400"/>
+	<img src="./assets/invertierender_opv.JPG" class="center" width="400"/>
   </div>
 
 #### Invertierender Addierer
@@ -538,28 +538,28 @@ $U_A=- (\dfrac{U_1}{R_1}+\dots +\dfrac{U_I}{R_I})\cdot R_N$
 Summe der Eingänge $U_1$ bis $U_I$ liegen auf $-$
 
   <div style="text-align:center">
-	<img src="./assets/invertierender_addierer.jpg" class="center" width="400"/>
+	<img src="./assets/invertierender_addierer.JPG" class="center" width="400"/>
   </div>
 
 #### Subtrahierer
 $U_A=\dfrac{R_0(R_1+R_3)}{R_1(R_0+R_2)}U_2-\cdot \dfrac{R_3}{R_1}U_1$. Mit normiertem $R_1=\dfrac{R3}{a}$ und $R2=\dfrac{R_0}{a}$ folgt: $U_A=a\cdot (U_2-U_1)$.
 
   <div style="text-align:center">
-	<img src="./assets/subtrahierer.jpg" class="center" width="400"/>
+	<img src="./assets/subtrahierer.JPG" class="center" width="400"/>
   </div>
 
-#### Integrierer
+#### Integrierer (invertierend)
 $U_A=-\dfrac{1}{R_1 C}\cdot \int U_E dt$
 
   <div style="text-align:center">
-	<img src="./assets/integrierer.jpg" class="center" width="400"/>
+	<img src="./assets/integrierer.JPG" class="center" width="400"/>
   </div>
 
-#### Differenzierer
-$U_A=-R_N*C*\dfrac{dU_E}{dt}$
+#### Differenzierer (invertierend)
+$U_A=-R_N*C*\dfrac{dU_E}{dt} \Rightarrow Integrierer mit vertauschtem Kondensator und Widerstand$
 
   <div style="text-align:center">
-	<img src="./assets/differenzierer.jpg" class="center" width="400"/>
+	<img src="./assets/differenzierer.JPG" class="center" width="400"/>
   </div>
 
 ## Analog und Digital-Wandlung
@@ -576,7 +576,7 @@ Schaltung von Widerständen, welche Dezimalzahlen in dualer Kodierung repräsent
 $U_A=-\dfrac{R_N}{16R}(8z_3+4z_2+3z_1+z_0)\cdot U_Ref$
 
   <div style="text-align:center">
-	<img src="./assets/d_a_wandler.jpg" class="center" width="400"/>
+	<img src="./assets/d_a_wandler.JPG" class="center" width="400"/>
   </div>
 
 
@@ -584,7 +584,7 @@ $U_A=-\dfrac{R_N}{16R}(8z_3+4z_2+3z_1+z_0)\cdot U_Ref$
 Es existieren verschiedene Verfahren, welche man in Abhängigkeit der Frequenz und Auflösung (in Bits) wählen sollte. Auflösungverlust unvermeidbar. 
 
   <div style="text-align:center">
-	<img src="./assets/a_d_wandler.jpg" class="center" width="400"/>
+	<img src="./assets/a_d_wandler.JPG" class="center" width="400"/>
   </div>
 
 **Wägevrefahren**:
@@ -597,6 +597,10 @@ Inkrementiere die Zahl jeweils um eins, ansonsten wie beim Wägeverfahren. Damit
 Über $2^n -1$ Flip-Flops wird mithilfe eines Vergleichers für jeden möglichen Wert eine 1 gesetzt, wenn die erzeugte Spannung größer als die Referenz ist.
 
 **Delta-Sigma-Wandler**:
+
+
+**Integrierer**:
+
 
 
 
@@ -660,17 +664,17 @@ Umformung:
   * Parallelschaltung/Addierschaltung: Addition der Übertragungsfunktionen
   * Rückkopplung/Gegenkopplung
   <div style="text-align:center">
-	<img src="./assets/Gegenkopplung.jpg" class="center" width="400"/>
+	<img src="./assets/Gegenkopplung.JPG" class="center" width="400"/>
   </div>
   * Rückkopplung/Mitkopplung
   <div style="text-align:center">
-	<img src="./assets/Mitkopplung.jpg" class="center" width="400"/>
+	<img src="./assets/Mitkopplung.JPG" class="center" width="400"/>
   </div>
   * Verschiebung von Summationsstellen oder Verzweigungsstellen
 
 Ein geschlossener Regelkreis lässt sich als offener Regelkreis darstellen:
   <div style="text-align:center">
-	<img src="./assets/geschlossener_offener_regelkreis.jpg" class="center" width="400"/>
+	<img src="./assets/geschlossener_offener_regelkreis.JPG" class="center" width="400"/>
   </div>
 $\Rightarrow G(s) = \dfrac{G_0(s)}{1+G_0(s)}$ für geschlossene Systeme, wobei $G_0(s)$ die Funktion für offene Systeme darstellt.
 
@@ -700,7 +704,7 @@ Ein PID-Regler besteht aus einer Parallelschaltung von P-, I- und D-Glied.
 **Robustheit**: Wie robust ist die Regelung gegenüber Störungen?
 
   <div style="text-align:center">
-	<img src="./assets/pid_regler.jpg" class="center" width="400"/>
+	<img src="./assets/pid_regler.JPG" class="center" width="400"/>
   </div>
 
 $R(s)=K_p(1+\dfrac{1}{T_N s}+T_V s)$ mit Vorhaltzeit $T_V$ und Nachstellzeit $T_N$
@@ -824,7 +828,7 @@ Gefahren mitigieren:
 Eine Risk Analysis bestimmt die Anforderungen an die Safety Function mittels SIL-Level. Parameter sind Auswirkungen und Wahrscheinlichkeit eines Hazards. Großes SIL-Level $\Rightarrow$ hohe Anforderungen.
 
   <div style="text-align:center">
-	<img src="./assets/sil_levels.jpg" class="center" width="400"/>
+	<img src="./assets/sil_levels.JPG" class="center" width="400"/>
   </div>
 
 
