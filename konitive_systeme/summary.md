@@ -148,6 +148,8 @@ Bestimme über unsupervised Training Parameter und Gewichtung von mehreren Gauß
 **Hierarchical Clustering/KNN**:
 Beginne mit einem Cluster pro Punkt. Merge zwei Cluster die am nächsten gelegenen sind bis gestoppt wird. Der Prozess kann in einem Dendrogram dargestellt werden, welche die Ähnlichkeit innerhalb eines Clusters zeigt.
 
+Faustformel: Nutze $k=\sqrt n$
+
 Maße für Ähnlichkeit:
 
   * Minimaler Abstand
@@ -184,13 +186,18 @@ Gründe für schlechte Performance/Generalisierung:
 
 
 ## Spracherkennung 
-Analoge Sprache $\Rightarrow$ erkannte Sequenz $\Rightarrow$ beste Wortsequenz.
+
+<div style="text-align:center">
+	<img src="./assets/spracherkennung.JPG" class="center" width="200"/>
+</div>
 
 **Word Error Rate**:
 Methode um die Qualität der Spracherkennung zu messen.
 
-$WER=\frac{\text{#Ins}+\text{#Del}+\text{#Sub}}{n}$
+$WER=\frac{\text{#Ins}+\text{#Del}+\text{#Sub}}{\text{#Referenzwörter}}$
+Die Referenz wird als Bearbeitungsgrundlage genommen.
 
+Erkennungsgenauigkeit ACC=1-WER
 
 ### Vorverarbeitung
 **Alignment**:
@@ -205,7 +212,7 @@ Um die Suche zu vereinfachen, kann man *Beam-Search* verwenden. Dabei werden nur
 
 #### Markow-Ketten
 Beschreiben stochastische Prozesse. Für Spracherkennung werden zeitdiskrete Modelle 1. Ordnung (also nur abhängig vom direkt vorhergehenden Zustand) mit endlichem Zustandsraum verwendet.
-Zudem sollten die Ketten homogen sein, d.h. Übergangswahrscheinlichkeiten zwischen Zuständen sind unabhöngig von der Zeit.
+Zudem sollten die Ketten homogen sein, d.h. Übergangswahrscheinlichkeiten zwischen Zuständen sind unabhängig von der Zeit.
 
 Topologie:
 
@@ -232,9 +239,351 @@ Phonetische oder Wörterbücher, ggf. Tree-structured.
 **Fundamentalformel**:
 Statistische Methode zur Erkennung von gesprochener Sprache.
 
-$\hat{W}=\arg \max_{w} P(W | X) = \arg \max_{w} \frac{P(X|W)\cdot P(W)}{P(X)}$ 
+$\hat{W}=\arg \max_{w\in \scriptW} P(W | X) = \arg \max_{w} \frac{P(X|W)\cdot P(W)}{P(X)}$ 
 
-Hierbei ist $\hat{W}$ die Hypothese, $X$ der Merkmalsvektor, $P(X|W)$ das akustische Modell und $P(W)$ das Sprachmodell. $w$ ist das Wörterbuch (?). 
+Hierbei ist $\hat{W}$ die Hypothese, $X$ der Merkmalsvektor, $P(X|W)$ das akustische Modell und $P(W)$ das Sprachmodell. $\scriptW$ ist das Wörterbuch. 
 
 *Rechenhinweis*: Der Nenner kann weggelassen werden, wenn es nur um einen Vergleich von zwei Modellen geht. 
 
+**Perplexität**:
+Maß für die Güte eines Sprachmodells.
+
+## Grundlagen Bildverarbeitung
+
+Elemente eines Kognitiven Systems:
+
+<div style="text-align:center">
+	<img src="./assets/elemente_system.JPG" class="center" width="200"/>
+</div>
+
+Kognition beinhaltet Algorithmen zur Deduktion, Induktion und zum Lernen.
+
+### Bildrepräsentation
+
+Farbmodelle:
+  
+  * S/W: Nur Graustufen.
+  * RGB: Additive Farbmischung von Rot/Grün/Blau, alle Farben zusammen ergeben Weiß (siehe Überlagerung von Lichtwellen).
+  * CYMK: Subtraktive Farbmischung (es werden sozusagen Lichtwellenspektren absorbiert/subtrahiert), wenn alle übereinander liegen, verbleibt schwarz, da alle Wellen absorbiert werden.
+  * HSI: Hue besitmmt Farbnuance, Saturation die Sättigung und Intensity die Helligkeit. 
+	Durch Trennung von Helligkeit und Farbwert ist HSI unempfindlich gegen Beleuchtungsänderungen $\Rightarrow$ Gut für Farbsegmentierung
+	Wenn $R=G=B$ dann ist $H$ undefiniert, falls $R=G=B=0$ dann ist zudem $S$ undefiniert
+  * HSV: Hue, Saturation, Value. Wird speziell zur Farbsegmentierung benutzt. 
+
+**Speicheurng**:
+Graustufen: 1 Byte pro Pixel, Kodierung zwischen 0 und 255.
+
+Farbbilder: Drei Bytes pro Pixel für RGB, ebenfalls zwischen 0 und 255.
+
+**Bayer-Pattern**:
+Nur sehr hochwertige Kameras besitzen drei Chips pro Pixel um RGB richtig aufzunehmen. Normalerweise wird jedoch das Bayer-Pattern verwendet, bei dem ein Chip pro Pixel je eine Farbe detektiert. Da das menschliche Auge gegenüber grün am empfindlichsten ist, wird in jeder Zeile Grün, abwechselnd mit Rot und Blau detektiert.
+
+### Bildverarbeitung
+
+#### Homogene Punktoperatoren
+Abänderung eines Pixels unabhängig von Position innerhalb der Matrix.
+Wenn die Funktion in der Form $ax+b$ mit von den Daten unabhängigem $a, b$ darstellbar ist, so ist sie *affin* (Grenzen einhalten beeinträchtigt Affinität nicht).
+
+Anwendungsgebiete: 
+
+  * Affine Operatoren: Kontrast- und Helligkeiterhöhung/-senkung (keine dynamische Anpassung!), Invertierung
+  * Nicht-affine Operatoren: Auslgleich von Sensor-Nichtlinearitäten, Gewichtung, Binarisierung
+
+#### Histogramm-Modifikationen
+ 
+  * Spreizung: $I'(u,v)= 255 \cdot \frac{I(u,v)-min}{max-min}$
+  * Histogrammdehnung: $I'(u,v)=255\cdot \frac{I(u,v)-H_q(min)}{H_q(max)-H_q(min)}$
+  * Histogrammausgleich: $H_n(x)=255\cdot \frac{H_a(x)}{\text{#Werte}}$
+
+#### Lokale Operatoren
+Berücksichtigung der Nachbarschaft von Pixeln. Anwendung bei Filterung, Masken, ...
+
+Bei Masken können die Werte am Rand nicht berechnet werden, da nicht alle Umgebungspixel definiert sind. Bei mehreren Iterationen setzt sich dies immer weiter fort! 
+Möglicher Lösungsansatz ist periodische Fortsetzung des Bildes, ist aber nicht immer eine valide Annahme.
+
+**Glättungfilter/Tiefpassfilter**:
+
+  * Rechteck-/Mittelwertfilter: Flacht extreme Punkte ab (verschmiert) und glättet proportional zur Maskengröße. Schnelle Berechnung möglich. $\frac{1}{9}\begin{pmatrix}1&1&1\\1&1&1\\1&1&1\end{pmatrix}$
+  * Gauß-/Binomialfilter: Glättet stärker als Rechteckfilter, Einfluss der Umgebung in Abhängigkeit des Abstands, dadurch werden Kanten nicht so stark abgeflacht.
+  $\frac{1}{16}\begin{pmatrix}1&2&1\\2&4&2\\1&2&1\end{pmatrix}$
+  * Medianfilter: Pixel wird Median der Werte der Nachbarschaft zugeordnet. Geringer Glättungseffekt, dafür leiden Schärfe und Kanten kaum. Außreißer werden kaum berücksichtigt. Kann mittels Histogramm berechnet werden.
+
+Anisotrope Filter: Weisen nicht in alle Richtungen dieselben Eigenschaften auf.
+
+  * Bilateralfilter: Kantenerhaltender Glättungsfilter, aber dafür schwer berechenbar da nicht-linear.
+  * Mean-Shift-Filter: Mittlerem Pixel wird der wahrschienlichste Wert aus der Nachbarschaft zugeordnet. Dann wird Suchfenster auf die höchste Wahrscheinlichkeit gesetzt und von vorne begonnen. 
+
+**Kantendetektion/Hochpassfilter**:
+
+  * Prewitt-X-Filter: Betont vertikale Kanten. $\begin{pmatrix}-1&0&1\\-1&0&1\\-1&0&1\end{pmatrix}$. Prewitt-Y-Filter ist um 90° gedreht. Der Prewitt-Operator $M=\sqrt{P_x^2+P_y^2}$ dient zur Bestimmung des Gradientenbetrags $M$.
+  * Sobel-X-Filter: Prewitt multipliziert mit Gauß zur Betonung der Kanten. $\begin{pmatrix}1&0&-1\\2&0&-2\\1&0&-1\end{pmatrix}$. Sobel-Y-Filter ist um 90° gedreht. Sobel-Operator $M=\sqrt{S_x^2+S_y^2}$ zur Bestimmung des Gradientenbetrags $M$.
+  * Laplace-Filter: Idee dahinter ist dass Kanten Nullstellen in der 2. Ableitung sind. $\begin{pmatrix}0&1&0\\1&-4&1\\0&1&0\end{pmatrix}$. Dadurch richtungsunabhängige Kantenverstärkung, allerdings empfindlich gegenüber Rauschen. Gegenmaßnahme: Vorab durch Gaußfilter glätten (*Laplace of Gaussion*).
+  * Canny: Ziel einer guten Kantendetektion, -lokalisierung und einer minimalen Antwort, also dünnen Linien. Daher binäre Antwort. 
+    1. Gauß-Filter
+    2. Gradientenberechnung mittels Prewitt- oder Sobel-Operator
+    3. Non-Maximum-Suppression, sodass nur maximale Gradienten verbleiben
+    4. Hysterese-Schwellwertverfahren, sodass nur ausreichend hohe Gradienten verbleiben.
+  * Roberts-X: Diagonale Kantendetektion. $\begin{pmatrix}-1&0\\0&1\end{pmatrix}$
+
+**Bildanalyse**:
+Frequenzen geben Aufschluss über Grauwertübergänge, daher sind Fourier-Transformationen hilfreich.
+
+Ergebnis der Fouriertransformation sind Spektrum und Phase. Beide zusammen erlauben eine Rekonstruktion des Originalbilds.
+
+### Segmentierung
+#### Schwellwert
+**Multilevel-Otsu-Verfahren**:
+Automatisches multimodales Schwellwertverfahren. Findet beste Schwellwerte anhand der gegebenen Bildpunkte, genauer gesagt der Inter- und Intraklassenvarianz (Diskriminanzkriterium).
+
+#### Farbe
+Wechselnde Lichtbedingungen wie Reflexionen und Schattenwürfe können Schwierigkeiten bereiten. 
+
+**HS-Histogramm**:
+Eliminiert Helligkeit als Faktor vom HSI-Modell um invariant gegenüber Lichtbedingungen zu sein.
+
+#### Morphologische Operatoren
+Dilatation und Erosion als Grundoperationen.
+
+**Opening**:
+Erosion + Dilatation
+
+**Closing**: 
+Dilatation + Erosion
+
+**Vermeidung**:
+n-fache Kombination von Erosion und Dilatation.
+
+#### Bewegung
+Differenzbilder mittels Subtraktion aufeinanderfolgender Bilder mit anschließender Schwellwertfilterung. Regionen in denen keine Bewgung stattfindet sind schwarz (da zu 0 subtrahiert).
+
+#### Region Growing
+Suche nach zusammenhängenden Regionen mittels Schwellwerten
+
+#### Hough-Transformation
+Zur Erkennung gerader Linien im Bild. Linie wird in Polarkoordinaten dargestellt: $r=x \cos \theta + y \sin \theta$.
+
+Punkte im Bildraum entsprechen Sinusoid im Parameterraum (der Transformierten) und umgekehrt.
+
+Für Kreisdetektion: $r^2=x^2+y^2$. Gesuchter Kreis entspricht Schnittpunkt von Kreisen der Transformierten.
+
+#### Texturierte Objekte
+Grundsätzlich schwer zu erkennen.
+
+Harris Corner Detector: Sind Eigenwerte der Gradientenmatrix groß, dann bedeutet eine kleine Bewegung eine große Veränderung. Suche Ecken durch lokale Maxima.
+ 
+#### Wiedererkennung von Punkten/Korrespondenzproblem
+Grundsätzlich durch Feature Detektoren (beschreiben Suchfunktion) oder Deskriptoren (beschreiben Pixel-Patch) möglich.
+
+**Sum of Squared Differences**:
+Summe der quadrierten pixelweisen Differenz zum Mittelwert. Gut für kleine Werte.
+
+**Zero Mean Normalized Cross Correlation**:
+Summe der quadrierten pixelweisen Differenz, punktweise multipliziert miteinander. Gut für große Werte.
+
+#### Human Motion Capture
+Problem ist die Bestimmung der Konfiguration eines Menschen (Gelenkwinkel) anhand von Bildern.
+Das HMC besteht aus kinematischem (Definiert Körper) und geometrischem Modell.
+Aktionen werden dann mittels HMM/Dynamic Movement Primitives/Spline-based Representations dargestellt.
+
+## 3D-Bildverarbeitung
+### Geometrische 3D-Transformationen 	
+
+Darstellungsarten für 3D-Bildverarbeitungen: 
+  
+**Homogene Transformationsmatrizen und Vektoren**:
+Für Translationen und Rotationen
+
+Translation eines Vektors:
+$\begin{pmatrix}
+	x_0\\
+	y_0\\
+	z_0
+\end{pmatrix} + \begin{pmatrix}
+	x\\
+	y\\
+	z
+\end{pmatrix} = \begin{pmatrix}
+	x_0+x\\
+	y_0+y\\
+	z_0+z
+\end{pmatrix}$
+
+Rotation: 
+$\begin{pmatrix}
+	x\\
+	y\\
+	z
+\end{pmatrix} = R\begin{pmatrix}
+	x_0\\
+	y_0\\
+	z_0
+\end{pmatrix}$
+wobei $R$ die jeweilige Rotationsmatrix ist:
+  * $R_x(\theta)=\begin{pmatrix}
+  		1 & 0 & 0\\
+  		0 & \cos \theta & -\sin \theta\\
+  		0 & \sin \theta & \cos \theta
+  	\end{pmatrix}$
+  * $R_y(\theta)=\begin{pmatrix}
+  		\cos \theta & 0 & \sin \theta\\
+  		0 & 1 & 0\\
+  		-\sin \theta & 0 & \cos \theta
+  	\end{pmatrix}$
+  * $R_z(\theta)=\begin{pmatrix}
+  		\cos \theta & -\sin \theta & 0\\
+  		\sin \theta & \cos \theta & 0\\
+  		0 & 0 & 1
+  	\end{pmatrix}$
+
+Rotationsmatrizen sind regulär, invertierbar und besitzen eine Determinante von 1. Die Achsen können mitgedreht ($R_{X'Y'Z'}(\alpha, \beta, \gamma)$) werden oder raumfest ($R_{ZYX}(\gamma,\beta,\alpha)\$) sein.
+Zudem sind die orthogonal, daher ist die Inverse einer Rotationsmatrix ihre Transponierte.
+
+Problem: Hohe Redunanz bei Rotationsmatrizen, sehr rechenaufwändig und schwierig zu interpolieren. Be Euler-Winkeln besteht das Problem der Singularität, d.h. eine einzige Drehung kann durch mehrere Euler-Winkel dargestellt werden und ist somit nicht mehr invertierbar.
+ 
+**Quaterionen**:
+Nur für Rotationen geeignet. Erweitert komplexe Zahlen in vierdimensionalen Raum. 
+Ein Quaternion hat die Form $q=(q_w,q_x,q_y,q_z)=(q_w,q_v)$ wobei $q_w$ der Realteil und $q_v$ der Imaginärteil ist.
+
+Rechenregeln:
+  
+  * Multiplikation ist *nicht* kommutativ! 
+  * Konjunktion eines Quaternions entspricht dem Versehen des Imaginärteils mit zusätzlichem Minuszeichen
+  * Inverse enstpricht dem invertieren und teilen durch die quadrierte Norm
+
+Problem der Quaternionen: Nur Rotationen 
+
+Es ist möglich Quaternionen in Rotationsmatrizen umzuwandeln und umgekehrt. 
+
+## Logik 
+
+$\text{Logik}:=(\text{Symbolmenge} S, \text{Belegungsmenge} M, \text{Syntax}, \text{Semantik},\text{Folgerungsoperator})$
+
+Aus Sätzen in einer Wissenrepräsentationsspache wird Wissen abgeleitet (Deduktion). 
+Wenn der Satz $\alpha$ durch Algorithmus $i$ aus der Wissensbasis abgeleitet werden kann, so schreibt man $WB\vdash_i \alpha$. 
+
+
+**Korrektheit**:
+Leitet nur Sätze ab, die aus der WB folgen.
+$WB\vdash_i \alpha \Rightarrow WB\Vdash_i \alpha$ 
+
+**Vollständigkeit**:
+Leitet alle Sätze aus der WB ab, die aus WB folgen.
+$WB\Vdash_i \alpha \Rightarrow WB\vdash_i \alpha$
+
+### Aussagenlogik
+
+**Modus Ponens**:
+Aus der Implikation und $\alpha$ kann $\beta$ gefolgert werden: $\frac{\alpha\Rightarrow \beta , \alpha}{\beta} 
+
+**Resolutionsalgorithmus**:
+Wissensbasis auf KNF bringen, durch Resolutionsregel können neue Klauseln zur WB hinzugefügt werden. Sollte eine leere Klausel erzeugt werden, so ist die Klauselmenge unerfüllbar.
+Problem: NP-vollständig
+
+**Davis-Putnam-Logemann-Loveland (DPLL)-Algorithmus**:
+Verbesserung des Resolutionsalgorithmus durch Einschränkungen des Suchraums mittels Einheitklauseln und reinen Symbolen sowie früheren Abbruch.
+
+#### Horn-Klauseln
+Disjunktion von Literalen von denen höchstens Eines positiv ist!
+
+  * Kein negatives Literal: Fakt/Axiom
+  * Genau ein positives Literal: Definition
+  * Kein positives Literal: Integritätseinschränkung
+
+Visualisierbar als Und-Oder-Graph. Folgerungsentscheidung kann in linearer Zeit geschehen. Nutze dazu Vorwärts- (Durchführbare Folgerungsentscheidungen) oder Rückwärtsverkettung (Wahrheitsgehalt Anfrage).
+
+### Prädikatenlogik
+Aussagenlogik nicht sehr mächtig, Prädikatenlogik aussagekräftiger, aber auch schwieriger zu behandeln. 
+Erfüllbarkeit ist nur semientscheidbar, da Algorithmen bei Entscheidbarkeit nicht immer terminieren. 
+
+#### Planungssprachen
+
+**Stanford Research Institute Problem Solver (STRIPS)**:
+Zustandsrepräsentation:
+
+  * Konjunktion von positiven Literalen
+  * Funktions- und Variablenfreie Literale erster Ordnung.
+  * Jeder Zustand ist vollständig bekannt, "geschlossene Welt"-Annahme: im Zustand unbestimmte Literale gelten als falsch.
+
+Zielrepräsentation: Teilweise spezifizierter Zustand
+
+Aktionen: $A=(N_A,P_A,V_A,E_A$ Aktionsname $N$, Parameter $P$ (in Bezug auf Aktion), Vorbedingungen $V$, Effekte $E$. Eine Aktion heißt *anwendbar* auf eine Belegung, wenn sie alle Vorbedingungen erfüllt.
+
+Einschränkungen: Literale müssen funktionsfrei und positiv sein, geschlossene Welt Annahme. Aussagen oft lang und unübersichtlich.
+
+**Action Description Language (ADL)**:
+Keine geschlossene Welt-Annahme, nicht angegebene Literale gelten als unbekannt, negative Literale und Disjunktionen erlaubt. 
+
+##### Planungsstragien
+Suche im Zustandsraum einfach, um naive Suche zuverbessern entweder Segmentierung oder Heuristik verwenden.
+
+  * Greedy mit Heuristik, keine Garantie
+  * A\*, garantiert kürzesten Weg, Effizienz abhängig von Heuristik.
+
+#### Zeitsensitive Planung/Scheduling
+
+**Partial Order Planning**: 
+Plan legt keine total, sondern nur partielle Ordnung auf allen Aktionen mittels der Vorbedingungen fest, dabei dürfen keine Zyklen entstehen. 
+
+**Planungsgraphen**: 
+Verbindet Zeitabschnitte. Sich gegenseitig ausschließende Aktionen und Literale durch Mutex-Link verbinden.
+
+#### Umweltmodelle
+Verschiedene Abstraktionsstufen: Geometrische, topologische (+ Abstand) und semantische Darstellung (+ Art/Struktur von Objekten)
+
+**Objektmodellierung**:
+  
+  * Kantenmodelle: Ermittlung markanter Punkte welche durch Kanten verbunden werden.
+  * Oberflächenodelle: Darstellung ebener Flächen mittels Polygone und gekrümmter Objekte mit Zyklinder/Kegel/...
+  * Volumenmodelle
+    * Begrenzungsflächen: Beschreibung des Körpers durch umgebende geometrische Kanten in festgelegtem Richtungssinn
+    * Constructive Solid Geometry: Zusammensetzung von Körpern aus parametrierbaren Grundelementen auf welche Positionierungen und boolesche Operatoren angwendet werden. Problem: hoher Rechenaufwand
+
+#### Bahnplanung
+Erfolgt im Freiraum. Konfigurationsraum ist der Raum dessen Dimensionen die für die Planung relevanten Parameter beinhaltet.
+
+Gegeben: Umgebungskarte, welche Trennung in Frei- und Hindernisraum festhält.
+
+**Polygonzerlegung**:
+Raum von Hinternisecken ausgehend in Polygone zerlegen. Trennlinien werden von oben nach unten bis zur nächsten Hinderniskante gezogen. Polygone müssen komplett frei oder komplett unpassierbar sein. Wegenetz geht durch Mittelpunkte der Freiraumpolygone sowie die Mittelpunkte der Trennlinien benachbarter Polygone.
+Benutze dann z.B. A\*.
+
+Problem: ggf. große Umwege bei großen Freiräumen/Polygonen.
+
+**Sichtgraphen**:
+Ziel: Suche nach kürzestem Weg! Ziehe Weglinien als Sichtverbindungen zwischen Hindernisecken (inklusive Rand der Hindernisse). Ecken sind Suchknoten Wegenetz.
+
+Problem: Gräße des Roboters sollte auf Hinternisse augmentiert werden, damit es zu keiner Kollision kommt. Methode ist exakt wenn es nur zwei translatorische Freiheitsgrade gibt und der Roboter und die Hindernisse jeweils als Polygone darstellbar sind.
+
+**Quadtrees**:
+Aufteilung eines Raums in Quadrate dynamischer Größe. Quadrate müssen entweder kompplett frei oder komplett blockiert sein, gemischte Quadrate werden weiter aufgespalten. Dadurch ist die Auflösung in jedem Bereich nur so genau wie nötig, es wird kein Speicher verschwendet.
+
+**Voronoi-Diagramme**:
+Äquidistanzlinien zwischen den Hindernissen und dem Raum, dadurch wird maximale Freiheit von Hindernissen garantiert, jedoch kann dies auch ein großer Umweg sein.
+
+**Potentialfeldmethode**:
+Definiere Konfigurationsfeld als Potentialraum, wobei das globale Minimum im Zielpunkt liegt. Hindernisse haben sehr hohes Potenzial. Nutze Gradientenabstiegs-Methode.
+
+Problem: lokale Minima.
+
+## Robotik
+
+Grundprobleme: Dynamik $\Rightarrow$ Kinematik $\Rightarrow$ Geometrie(Hindernis-, Freiraum, Kollisionsvermeidung, ...)
+
+**Kinematik**:
+Modell beschreibt Zusammenhänge zwischen Raum der Gelenkwinkel und Raum der Lage des Endeffektors in Weltkoordinaten.
+
+**Dynamik**: 
+Modell beschreibt Zusammenhand zwischen Kräften, Momenten und Bewegungen, welche in einem mechanischem Mehrkörpersystem auftreten.
+
+Komponenten eines Roboters: 
+
+  * Mechanisch: Gelenke, Arbeitsraum (kartesisch, kugel- oder zyklinderförmig), Radkonfigurationen (Differential-, Dreirad-, Synchro- oder Mecanum-Antrieb)
+  * Antriebe: Fluid, muskelartig oder elektrisch
+  * Sensoren: Benötigt zur Regelung bei unbekannten Störgrößen. Elementare, integrierte oder intelligente Sensoren. Zudem Klassifikation als interne/externe und aktive/passive Sensoren.
+  * Getriebe
+
+**DH-Parameter**:
+Beschreibt Transformation von Objektkoordinatensystemen ineinander: Rotation, Translation, Translation, Rotation.
+
+**Merkmalsextraktions-Module**:
+Lösung der Abstrahierung beim Lernen, sodass neues Wissen möglichst auf neue Domänen angewendet werden kann.
