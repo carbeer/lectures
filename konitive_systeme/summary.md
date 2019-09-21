@@ -28,7 +28,7 @@ Dabei bezeichnet $F(\omega)$ das Spektrum, $F|(\omega)|$ das Amplitudenspektrum 
 Neben dem kontinuierlichen (nicht-periodischen) Fall können auch zeitdiskrete Reihen (ggf. nicht-periodisch) mittels Fourier in ein kontrinuierliches Spektrum tranformiert werden ($\Rightarrow$ *Diskrete Zeit Fouriertransformation*). Diskrete, periodische Reihen können in diskrete komplexe Zahlen transformiert werden ($\Rightarrow$ *Diskrete Fouriertransformation* (DFT)). Die DFT kann als Spezialfall der Z-Transformation angesehen werden.
 
 **Fast Fourier Transformation**:
-Wird genutzt um diskrete Fourier-Transformationen schneller durchzuführe. Divide-and-Conquer-Schema: Unterteile Reihe mit Länge $2n, n \in \mathbb{N}$ in gerade und ungerade Indizes, bestimme deren DFT und führe die Teilergebnisse zusammen. 
+Wird genutzt um diskrete Fourier-Transformationen schneller durchzuführen. Divide-and-Conquer-Schema: Unterteile Reihe mit Länge $2n, n \in \mathbb{N}$ in gerade und ungerade Indizes, bestimme deren DFT und führe die Teilergebnisse zusammen. 
 Laufzeit von $O(n\cdot log(n))$.
 
 ### Faltung
@@ -77,7 +77,7 @@ Zusammenhang zwischen Signalen (Nächster Wert vom vorigen Wert des anderen Sign
 
 
 **Template Matching**:
-Maß der Übereinstimmung zwischen Schablone und Muster soll maximiert werden $\Leftarrow$ Korrelation in Abhängigkeit des Zentrierungspunktes bestimmen.
+Maß der Übereinstimmung zwischen Schablone und Muster soll maximiert werden $\Rightarrow$ Korrelation in Abhängigkeit des Zentrierungspunktes bestimmen.
 
 
 ### Parametrische Modelle
@@ -85,11 +85,11 @@ Parametrische Modelle nehmen eine zugrundeliegende Wahrscheinlichkeitsverteilung
 
 **Bayes Decision Theorie**:
 
-$P(\omega_j | x)=\frac{P(x|\omega_j) P(\omega_j)}{P(x)}$ mit $P(x)=\sum_j P(x|\omega_j)P(\omega_j)$
-Dabei ist $P(\omega_j)$ die A-priori-Wahrscheinlichkeit und $P(\omega_j|x)$ die A-posteriori-Wahrschienlichkeit nach Observation von $x$. $P(x|\omega_j$ nennt sich klassenabhängige Wahrscheinlichkeitsdichte.
+$P(\omega_j | x)=\frac{P(x|\omega_j) P(\omega_j)}{P(x)}$ mit $P(x)=\sum_j P(x|\omega_j)P(\omega_j)$.
+Dabei ist $P(\omega_j)$ die A-priori-Wahrscheinlichkeit und $P(\omega_j|x)$ die A-posteriori-Wahrschienlichkeit nach Observation von $x$. $P(x|\omega_j)$ nennt sich klassenabhängige Wahrscheinlichkeitsdichte.
 
 Probleme: Limitierte Trainingsdaten und Rechenpower, Labeling potenziell fehlerbehaftet und teuer. Klassen können vorab unbekannt sein, keine guten Features bekannt. 
-Bei einer parametrischen Lösung kann man Annehmen dass $P(x|\omega_i)$ eine bestimmte parametrische Form hat, meist wird hierfür eine Normalverteilung gewählt.$
+Bei einer parametrischen Lösung kann man Annehmen dass $P(x|\omega_i)$ eine bestimmte parametrische Form hat, meist wird hierfür eine Normalverteilung gewählt.
 
 **Gaussian Classifier**:
 
@@ -105,7 +105,7 @@ Bei unsupervised Training wird der Error direkt anhand der Daten ermittelt.
 
 **Parzen Windows**:
 
-$P(x) \cdot V =\frac{k}{n}$ mit $k$ als Anzahl Samples im Fenster und $n$ der Anzahl Samples ingesamt und $V$ der Anzahl Samples im Fenster.
+$P(x) \cdot V =\frac{k}{n}$ mit $k$ als Anzahl Samples im Fenster, $n$ als Anzahl Samples ingesamt und $V$ als Anzahl Samples im Fenster.
 Für große $n$ lässt sich so die Wahrscheinlichkeitsdichte ohne zugrundeliegende Verteilungsannahmen berechnen.
 
 **K-Nearest Neighbors**:
@@ -124,9 +124,7 @@ PCA reduziert Dimensionalität. Grundlegende Annahme ist existierende Korrelatio
   3. Entferne niedervariante Dimensionen (kaum Informationsverlust)
 
 **Risiko**:
-
 Verlustfunktion: $\sigma(\alpha_i | \omega_j)$ ist der Verlust durch Action $\alpha_i$ im Zustand $\omega_j$.
-
 Der erwartete Verlust bei gegebenem $x$ beträgt dann $R(\alpha_i | x)=\sum_{j=1}^s \lambda (\alpha_i | \omega_j) P(\omega_j | x)$.
 
 **Minimum Error Rate Classification**:
@@ -145,9 +143,8 @@ Set von mehrdimensionalen Punkten wird auf eine Gerade $y$ projiziert. Dann wird
 **Mixture Gaussians**:
 Bestimme über unsupervised Training Parameter und Gewichtung von mehreren Gauß-Verteilungen die zusammen die Daten abbilden. 
 
-**Hierarchical Clustering/KNN**:
+**Hierarchical Clustering/K-Means**:
 Beginne mit einem Cluster pro Punkt. Merge zwei Cluster die am nächsten gelegenen sind bis gestoppt wird. Der Prozess kann in einem Dendrogram dargestellt werden, welche die Ähnlichkeit innerhalb eines Clusters zeigt.
-
 Faustformel: Nutze $k=\sqrt n$
 
 Maße für Ähnlichkeit:
@@ -164,7 +161,7 @@ Gewichtete Summe der Inputs evaluieren. Entweder wird eine Klasse zugewiesen ($>
 
 Die Funktion $J_p(\vec{w})=\sum_{\vec{x}\in X}(-\vec{w}\cdot \vec{x})$ gibt für die Klasse der fehlklassifizierten Punkte $X$ den Error an. Dieser sollte minimiert werden (Gradientensuchverfahren). Als Error kann der absolute oder quadrierte Abstand verwendet werden.
 
-**Layers**
+**Layers**:
 Eingabeschicht, Ausgabeschicht und ggf. versteckte Schichten.
 
 Ausdrucksfähigkeit:
@@ -177,7 +174,7 @@ Output eines NN repräsentiert a posteriori Wahrscheinlichkeiten. Error wird idR
 
 **Spezifikationen**: Netztopologie, Lernfunktion, Zielfunktion, Eingangsgewichte, Lernparameter
 
-**Performance**
+**Performance**:
 Gründe für schlechte Performance/Generalisierung:
 
   * Overfitting durch zu viele Iterationen/Lernzyklen $\Rightarrow$ Validation Data nutzen
@@ -195,9 +192,17 @@ Gründe für schlechte Performance/Generalisierung:
 Methode um die Qualität der Spracherkennung zu messen.
 
 $WER=\frac{\text{#Ins}+\text{#Del}+\text{#Sub}}{\text{#Referenzwörter}}$
-Die Referenz wird als Bearbeitungsgrundlage genommen.
+Die Referenz wird als Bearbeitungsgrundlage genommen und zur Hypothese umgeformt.
 
 Erkennungsgenauigkeit ACC=1-WER
+
+**Levenshtein-Distanz**:
+$M+1$ Spalten für die korrekte Sequenz $M$ und $N+1$ Zeilen bei $N$ Einheiten der Hypothese. 
+
+  * Einfügen: eine Zelle nach rechts, Wert + 1
+  * Löschen: eine Zeile nach unten, Wert + 1
+  * Ersetzen: eine Zeile nach schräg unten, Wert + 1
+  * Übernehmen: eine Zeile nach schräg unten, Wert bleibt gleich.
 
 ### Vorverarbeitung
 **Alignment**:
@@ -229,6 +234,11 @@ Probleme:
 
 Es ist kein Verfahren bekannt, um Topologie simultan zuden restlichen Parametern zu optimieren. 
 
+**Viterbi**:
+
+  * Auftretenswahrscheinlichkeit: Matrix-Schreibweise mit den Zuständen als Zeilen und den Zeitpunkten als Spalten. In das Kästchen die Summe der Wahrscheinlichkeiten der eingehenden Pfeile schreiben.
+  * Wahrscheinlichste Zustandskette: Selbe Matrix ausfüllen, allerdings die Wahrschieilichkeiten verschiedener Wege nicht addieren, sondern nur den Weg mit der höchsten Wahrscheinlichkeit behalten.
+
 **Kontext**:
 Da Markow-Ketten keinen Kontext miteinbeziehen, ist es sinnvoll hybride aus HMMs und NN zu schaffen. 
 
@@ -237,11 +247,11 @@ Phonetische oder Wörterbücher, ggf. Tree-structured.
 
 #### Sprachmodell
 **Fundamentalformel**:
-Statistische Methode zur Erkennung von gesprochener Sprache.
+Statistische Methode zur Erkennung von gesprochener Sprache, von Naive Bayes abgeleitet.
 
-$\hat{W}=\arg \max_{w\in \scriptW} P(W | X) = \arg \max_{w} \frac{P(X|W)\cdot P(W)}{P(X)}$ 
+$\hat{W}=\arg \max_{w\in \mathcal{W}} P(W | X) = \arg \max_{w\in \mathcal{W}} \frac{P(X|W)\cdot P(W)}{P(X)}$ 
 
-Hierbei ist $\hat{W}$ die Hypothese, $X$ der Merkmalsvektor, $P(X|W)$ das akustische Modell und $P(W)$ das Sprachmodell. $\scriptW$ ist das Wörterbuch. 
+Hierbei ist $\hat{W}$ die Hypothese, $X$ der Merkmalsvektor, $P(X|W)$ das akustische Modell und $P(W)$ das Sprachmodell. $\mathcal{W}$ ist das Wörterbuch. 
 
 *Rechenhinweis*: Der Nenner kann weggelassen werden, wenn es nur um einen Vergleich von zwei Modellen geht. 
 
@@ -258,6 +268,75 @@ Elemente eines Kognitiven Systems:
 
 Kognition beinhaltet Algorithmen zur Deduktion, Induktion und zum Lernen.
 
+### Kameramodell
+
+**Lochkamera**:
+Übertragung eines Punktes $P=(X,Y,Z)$ auf Bildpunkt $p=(u,v,w)$:
+
+  1. $w$ ist der (negative) Abstand vom Projektionszentrum zur Projektionsfläche.
+  2. Herleitung der restlichen Koordinaten mittels Strahlensatz:
+     $-\frac{u}{f}=\frac{X}{Z}$ und $-\frac{v}{f}=\frac{Y}{Z}$.
+     Vereinfacht: $p=-\frac{f}{Z}P$ (bei Negativlage).
+
+Für die Bildebene können CCD-Chips verwendet werden (lichtempfindliche Elektronische Bausteine). Eine Zelle des Chips ist ein Pixel.
+
+Alle Punkte die auf der Geraden zwischen dem Projektionszentrum und dem Bildpunkt liegen werden auf dieselbe Stelle projiziert.
+
+In der Regel wird die Positivlage für Berechnungen verwendet, da hierbei keine Spiegelung entsteht. 
+
+**Homogene Koordinaten**:
+Dienen der Vereinheitlichung der Darstellung von Translationen mit der von Rotationen, usw. durch zusätzliche Dimension. 
+
+Dritte Dimension als 1: Symbolisiert einen Punkt.
+
+**Kalibriermatrix**:
+Dient zur Abbildung vom Kamera- in das Bildkoordinatensystem mittels der intrinsisches Kameraparameter. Kalibrierung selbst kann zum Beispiel mittel Direkter Linearer Transformation durchgeführt werden.
+
+$\begin{pmatrix}
+f_x & 0 & c_x\\
+0 & f_y & c_y\\
+0 & 0 & 1\\
+\end{pmatrix}$
+
+wobei $f_x, f_y$ die Brennweite in Pixeln umgerechnet sind.
+
+$A_B=K\cdot A_C$
+
+**Projektionsmatrix**:
+$P=\begin{pmatrix}K & R &| &K & \vec{t}\end{pmatrix}$
+Bildet einen 3D-Punkt $X$ von einem Objekt auf einen 2D-Bildpunkt $x$ auf der Kamera ab $x=PX$  
+
+**Essentialmatrix**:
+Definiert durch extrinsischen Kameraparameter $R_i$ und $t_i$.
+
+$E=\begin{pmatrix}
+	0 & -t_3 & t_2\\
+	t_3 & 0 & -t_1\\
+	-t_2 & t_1 & 0
+\end{pmatrix}R$
+
+hierbei ist das Weltkoordinatensystem gleich dem Kamerakoordinatensystem der Kamera 1 und E wird für die Parameter von Kamera 2 berechnet. 
+
+$x_c=\vec{R}\cdot x_w + \vec{t}$
+
+**Fundamentalmatrix**:
+Dient zur Berechnung der Epipolarlinien durch Rektifizierung. Zum Berechnen der Fundamentalmatrix wird die Essential- und Kalibriermatrix benötigt!
+
+$F=K'^{-T}EK^{-1}$.
+
+Rektifizierung: Veränderung der Eingabebilder sodass alle Epipolarlinien horizontal yur äquivalenten $v$-Korrdinate im anderen Kamerabild liegen $\Rightarrow$ leichtere Durchsuchung von Korrespondenzen.
+Theoretisch entspräche dies zwei parallelen Kameras mit identischer Ausrichtung.
+
+**Epipole**:
+Alle Epipolarlinien im nicht-rektifizierten Bild gehen durch den Epipol. Der Epipol ist der Schnittpunkt des Verbindungvektors der Projektionszentren mit der Bildebene.
+
+$e=-KR^Tt$ bzw $e'=K't$
+
+$l=F^T x'$ bzw. $l'=Fx$
+
+wobei jeweils das Weltkoordinatensystem auf die normale Kamera gerichtet ist. 
+
+
 ### Bildrepräsentation
 
 Farbmodelle:
@@ -266,13 +345,12 @@ Farbmodelle:
   * RGB: Additive Farbmischung von Rot/Grün/Blau, alle Farben zusammen ergeben Weiß (siehe Überlagerung von Lichtwellen).
   * CYMK: Subtraktive Farbmischung (es werden sozusagen Lichtwellenspektren absorbiert/subtrahiert), wenn alle übereinander liegen, verbleibt schwarz, da alle Wellen absorbiert werden.
   * HSI: Hue besitmmt Farbnuance, Saturation die Sättigung und Intensity die Helligkeit. 
-	Durch Trennung von Helligkeit und Farbwert ist HSI unempfindlich gegen Beleuchtungsänderungen $\Rightarrow$ Gut für Farbsegmentierung
+	Durch Trennung von Helligkeit und Farbwert ist HSI unempfindlich gegen Beleuchtungsänderungen $\Rightarrow$ Gut für Farbsegmentierung.
 	Wenn $R=G=B$ dann ist $H$ undefiniert, falls $R=G=B=0$ dann ist zudem $S$ undefiniert
   * HSV: Hue, Saturation, Value. Wird speziell zur Farbsegmentierung benutzt. 
 
-**Speicheurng**:
-Graustufen: 1 Byte pro Pixel, Kodierung zwischen 0 und 255.
-
+**Speicherung**: 
+Graustufen: 1 Byte pro Pixel, Kodierung zwischen 0 und 255. 
 Farbbilder: Drei Bytes pro Pixel für RGB, ebenfalls zwischen 0 und 255.
 
 **Bayer-Pattern**:
@@ -280,9 +358,10 @@ Nur sehr hochwertige Kameras besitzen drei Chips pro Pixel um RGB richtig aufzun
 
 ### Bildverarbeitung
 
-#### Homogene Punktoperatoren
+**Homogene Punktoperatoren**:
 Abänderung eines Pixels unabhängig von Position innerhalb der Matrix.
-Wenn die Funktion in der Form $ax+b$ mit von den Daten unabhängigem $a, b$ darstellbar ist, so ist sie *affin* (Grenzen einhalten beeinträchtigt Affinität nicht).
+
+**Affine Punktoperatoren**: Wenn die Funktion in der Form $ax+b$ mit von den Daten unabhängigem $a, b$ darstellbar ist, so ist sie affin. Grenzen einhalten beeinträchtigt Affinität nicht.
 
 Anwendungsgebiete: 
 
@@ -317,7 +396,7 @@ Anisotrope Filter: Weisen nicht in alle Richtungen dieselben Eigenschaften auf.
 
   * Prewitt-X-Filter: Betont vertikale Kanten. $\begin{pmatrix}-1&0&1\\-1&0&1\\-1&0&1\end{pmatrix}$. Prewitt-Y-Filter ist um 90° gedreht. Der Prewitt-Operator $M=\sqrt{P_x^2+P_y^2}$ dient zur Bestimmung des Gradientenbetrags $M$.
   * Sobel-X-Filter: Prewitt multipliziert mit Gauß zur Betonung der Kanten. $\begin{pmatrix}1&0&-1\\2&0&-2\\1&0&-1\end{pmatrix}$. Sobel-Y-Filter ist um 90° gedreht. Sobel-Operator $M=\sqrt{S_x^2+S_y^2}$ zur Bestimmung des Gradientenbetrags $M$.
-  * Laplace-Filter: Idee dahinter ist dass Kanten Nullstellen in der 2. Ableitung sind. $\begin{pmatrix}0&1&0\\1&-4&1\\0&1&0\end{pmatrix}$. Dadurch richtungsunabhängige Kantenverstärkung, allerdings empfindlich gegenüber Rauschen. Gegenmaßnahme: Vorab durch Gaußfilter glätten (*Laplace of Gaussion*).
+  * Laplace-Filter: Idee dahinter ist dass Kanten Nullstellen in der 2. Ableitung sind. $\begin{pmatrix}0&1&0\\1&-4&1\\0&1&0\end{pmatrix}$. Dadurch richtungsunabhängige Kantenverstärkung, allerdings empfindlich gegenüber Rauschen. Gegenmaßnahme: Vorab durch Gaußfilter glätten (*Laplace of Gaussian*).
   * Canny: Ziel einer guten Kantendetektion, -lokalisierung und einer minimalen Antwort, also dünnen Linien. Daher binäre Antwort. 
     1. Gauß-Filter
     2. Gradientenberechnung mittels Prewitt- oder Sobel-Operator
@@ -440,7 +519,7 @@ Zudem sind die orthogonal, daher ist die Inverse einer Rotationsmatrix ihre Tran
 
 Problem: Hohe Redunanz bei Rotationsmatrizen, sehr rechenaufwändig und schwierig zu interpolieren. Be Euler-Winkeln besteht das Problem der Singularität, d.h. eine einzige Drehung kann durch mehrere Euler-Winkel dargestellt werden und ist somit nicht mehr invertierbar.
  
-**Quaterionen**:
+**Quaternionen**:
 Nur für Rotationen geeignet. Erweitert komplexe Zahlen in vierdimensionalen Raum. 
 Ein Quaternion hat die Form $q=(q_w,q_x,q_y,q_z)=(q_w,q_v)$ wobei $q_w$ der Realteil und $q_v$ der Imaginärteil ist.
 
@@ -477,10 +556,18 @@ Aus der Implikation und $\alpha$ kann $\beta$ gefolgert werden: $\frac{\alpha\Ri
 
 **Resolutionsalgorithmus**:
 Wissensbasis auf KNF bringen, durch Resolutionsregel können neue Klauseln zur WB hinzugefügt werden. Sollte eine leere Klausel erzeugt werden, so ist die Klauselmenge unerfüllbar.
-Problem: NP-vollständig
+Problem: NP-vollständig.
+
+Um zu überprüfen, ob eine wahre Belegung für ein Literal existiert, kann das negierte Literal zur Menge hinzugefügt werden. Wenn die leere Menge abgeleitet werden kann, ist ein eine Belegung durch Widerspruchsbeweis gezeigt.
 
 **Davis-Putnam-Logemann-Loveland (DPLL)-Algorithmus**:
 Verbesserung des Resolutionsalgorithmus durch Einschränkungen des Suchraums mittels Einheitklauseln und reinen Symbolen sowie früheren Abbruch.
+
+Nacheinander Literale belegen: 
+
+  1. Finde Einheitsklauseln (Literal, welches alleine eine Klausel ist)
+  2. Finde reine Literale (Literal, welches in allen Klauseln nur negiert bzw. nicht-negiert vorkommt)
+  3. Setze erstes verbleibendes Symbol TRUE oder FALSE
 
 #### Horn-Klauseln
 Disjunktion von Literalen von denen höchstens Eines positiv ist!
@@ -522,7 +609,7 @@ Suche im Zustandsraum einfach, um naive Suche zuverbessern entweder Segmentierun
 #### Zeitsensitive Planung/Scheduling
 
 **Partial Order Planning**: 
-Plan legt keine total, sondern nur partielle Ordnung auf allen Aktionen mittels der Vorbedingungen fest, dabei dürfen keine Zyklen entstehen. 
+Plan legt keine totale, sondern nur partielle Ordnung auf allen Aktionen mittels der Vorbedingungen fest, dabei dürfen keine Zyklen entstehen. 
 
 **Planungsgraphen**: 
 Verbindet Zeitabschnitte. Sich gegenseitig ausschließende Aktionen und Literale durch Mutex-Link verbinden.
